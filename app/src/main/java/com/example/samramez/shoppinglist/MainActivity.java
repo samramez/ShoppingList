@@ -16,8 +16,9 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 
     private Button addButton;
-    private EditText addItem;
+    public EditText addItemEditText;
     private ViewGroup mContainerView;
+
 
 
     @Override
@@ -27,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
 
         //initiating page elements
         addButton = (Button) findViewById(R.id.addButton);
-        addItem = (EditText) findViewById(R.id.addItemEditText);
+        addItemEditText = (EditText) findViewById(R.id.addItemEditText);
         mContainerView = (ViewGroup) findViewById(R.id.container);
 
         addButton.setOnClickListener(new OnClickListener() {
@@ -48,30 +49,40 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+        //getting the entered value from EditText
+        //String item = addItemEditText.getText().toString();
 
         // Set the text in the new row to a random item.
-        ((TextView) newView.findViewById(android.R.id.text1)).setText(
-                ITEMS[(int) (Math.random() * ITEMS.length)]);
+//        ((TextView) newView.findViewById(android.R.id.text1)).setText(
+//                ITEMS[(int) (Math.random() * ITEMS.length)]);
 
-        // Set a click listener for the "X" button in the row that will remove the row.
-        newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Remove the row from its parent (the container view).
-                // Because mContainerView has android:animateLayoutChanges set to true,
-                // this removal is automatically animated.
-                mContainerView.removeView(newView);
+        String item;
+        item = addItemEditText.getText().toString();
+        ((TextView) newView.findViewById(android.R.id.text1)).setText(item);
 
-                // If there are no rows remaining, show the empty view.
-                if (mContainerView.getChildCount() == 0) {
-                    findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
-                }
-            }
-        });
+
+                // Set a click listener for the "X" button in the row that will remove the row.
+                newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Remove the row from its parent (the container view).
+                        // Because mContainerView has android:animateLayoutChanges set to true,
+                        // this removal is automatically animated.
+                        mContainerView.removeView(newView);
+
+                        // If there are no rows remaining, show the empty view.
+                        if (mContainerView.getChildCount() == 0) {
+                            findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
 
         // Because mContainerView has android:animateLayoutChanges set to true,
         // adding this view is automatically animated.
         mContainerView.addView(newView, 0);
+
+        //clear the EditText for the next thing
+        addItemEditText.setText("");
     }
 
 
