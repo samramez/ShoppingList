@@ -1,6 +1,5 @@
 package com.example.samramez.shoppinglist;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,12 +20,16 @@ public class MainActivity extends ActionBarActivity {
     ListView listView;
     FloatingActionButton fab;
 
+    MyDialogFragment myFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(android.R.id.list);
+
+        // Initiating the Floating ActionBar
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(listView);
 
@@ -58,9 +61,18 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                // When the button is clicked
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    Intent intent = new Intent(MainActivity.this, List.class);
-                    startActivity(intent);
+
+                    // Open Alert Dialog box so user enter the list name
+                    //openDialog();
+
+                    myFragment = new MyDialogFragment();
+
+                    myFragment.show(getFragmentManager(), "theDialog");
+
+
+
                     return true;
                 }
 
@@ -68,9 +80,35 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-    }
 
+    }// onCreate
 
+    // User input name of the list, then is directed to List page.
+//    void openDialog(){
+//
+//        LayoutInflater inflater = this.getLayoutInflater();
+//        View layout = inflater.inflate(R.layout.dialog_cell, null);
+//
+//        new AlertDialog.Builder(MainActivity.this)
+//                .setTitle("Enter List Name!")
+//                .setView(layout)
+//                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                        // Get text from EditText
+//                        final String listName = dialogEditText.getText().toString();
+//
+//                        //Start the ListActivity and send list name with the intent.
+//                        Intent intent = new Intent(MainActivity.this, List.class)
+//                                .putExtra(Intent.EXTRA_TEXT, listName);
+//
+//                        startActivity(intent);
+//                    }
+//                })
+//                //.setIcon(android.R.drawable.ic_dialog_alert)
+//                .show();
+//
+//    }
 
 
 

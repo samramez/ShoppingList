@@ -18,8 +18,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/floating_action_button"
         fab:fab_type="mini"
-        fab:fab_shadow="false"
-
-        />
+        fab:fab_shadow="false" />
 </FrameLayout>
 
