@@ -83,35 +83,6 @@ public class MainActivity extends ActionBarActivity {
 
     }// onCreate
 
-    // User input name of the list, then is directed to List page.
-//    void openDialog(){
-//
-//        LayoutInflater inflater = this.getLayoutInflater();
-//        View layout = inflater.inflate(R.layout.dialog_cell, null);
-//
-//        new AlertDialog.Builder(MainActivity.this)
-//                .setTitle("Enter List Name!")
-//                .setView(layout)
-//                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                        // Get text from EditText
-//                        final String listName = dialogEditText.getText().toString();
-//
-//                        //Start the ListActivity and send list name with the intent.
-//                        Intent intent = new Intent(MainActivity.this, List.class)
-//                                .putExtra(Intent.EXTRA_TEXT, listName);
-//
-//                        startActivity(intent);
-//                    }
-//                })
-//                //.setIcon(android.R.drawable.ic_dialog_alert)
-//                .show();
-//
-//    }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

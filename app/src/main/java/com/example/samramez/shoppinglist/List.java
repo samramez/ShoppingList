@@ -1,7 +1,8 @@
 package com.example.samramez.shoppinglist;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,24 +12,46 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 
 public class List extends ActionBarActivity {
 
 
 
     private Button addButton;
+    private Button saveButton;
     public EditText addItemEditText;
     private ViewGroup mContainerView;
 
+    // Name of the this list
+    static String listName;
 
+    // ArrayList for storing items and then adding to database later
+    static HashMap<String,String> queryItemMap = new HashMap<String, String>();
+
+    DBTools dbtools = new DBTools(this);
+
+
+    // For Test purposes
+    TextView testTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        // Getting List name from the sent intent
+        Intent listIntent = this.getIntent();
+        listName = listIntent.getStringExtra(Intent.EXTRA_TEXT);
+
+        // For Test purposes
+        testTextView = (TextView) findViewById(R.id.testTextView);
+        testTextView.setText(listName);
+
         //initiating page elements
         addButton = (Button) findViewById(R.id.addButton);
+        saveButton = (Button) findViewById(R.id.saveButton);
         addItemEditText = (EditText) findViewById(R.id.addItemEditText);
         mContainerView = (ViewGroup) findViewById(R.id.container);
 
@@ -41,26 +64,22 @@ public class List extends ActionBarActivity {
         });
     }
 
-    // a method to inflate item to the List activity.
+    // Inflate item cell to the List activity.
     private void addItem() {
 
+        // Show the Save Button
+        saveButton.setVisibility(View.VISIBLE);
+
         // Instantiate a new "row" view.
-        final ViewGroup newView = (ViewGroup) LayoutInflater.from(this).inflate(
-                R.layout.list_item_inflate, mContainerView, false);
-
-
-
-        //getting the entered value from EditText
-        //String item = addItemEditText.getText().toString();
-
-        // Set the text in the new row to a random item.
-//        ((TextView) newView.findViewById(android.R.id.text1)).setText(
-//                ITEMS[(int) (Math.random() * ITEMS.length)]);
+        final ViewGroup newView = (ViewGroup) LayoutInflater.from(this)
+                .inflate(R.layout.list_item_inflate, mContainerView, false);
 
         String item;
         item = addItemEditText.getText().toString();
         ((TextView) newView.findViewById(android.R.id.text1)).setText(item);
 
+        // Add to ItemList HashMap and later add the whole list
+        queryItemMap.put("item",item);
 
         // Set a click listener for the "X" button in the row that will remove the row.
         newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
@@ -71,9 +90,15 @@ public class List extends ActionBarActivity {
                 // this removal is automatically animated.
                 mContainerView.removeView(newView);
 
+                // Remove item from HashMap
+                String deletedItem = ((TextView) newView.findViewById(android.R.id.text1))
+                        .getText().toString();
+                queryItemMap.remove(deletedItem);
+
                 // If there are no rows remaining, show the empty view.
                 if (mContainerView.getChildCount() == 0) {
                     findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+                    saveButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -116,4 +141,19 @@ public class List extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Clear EditText when it is clicked
+    public void clearEditText(View view) {
+        addItemEditText.setText("");
+    }
+
+    // Saves the queryHashMap in the SQL table and go back to main page
+    public void saveList(View view) {
+
+        dbtools.insertItem(queryItemMap, listName);
+
+        // Go to main page
+        Intent intent = new Intent(getApplication(), MainActivity.class );
+        startActivity(intent);
+
+    }
 }

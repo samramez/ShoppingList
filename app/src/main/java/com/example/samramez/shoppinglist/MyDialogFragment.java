@@ -26,16 +26,6 @@ public class MyDialogFragment extends DialogFragment{
 
     private EditText dialogEditText;
 
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//
-//        View view = inflater.inflate(R.layout.dialog_cell, container);
-//
-//        dialogEditText = (EditText) view.findViewById(R.id.dialogEditText);
-//
-//        return view;
-//    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
