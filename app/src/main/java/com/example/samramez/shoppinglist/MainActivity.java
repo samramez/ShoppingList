@@ -8,10 +8,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,12 +26,25 @@ public class MainActivity extends ActionBarActivity {
 
     MyDialogFragment myFragment;
 
+    ArrayList<String> listNames;
+
+    DBTools dbTools = new DBTools(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(android.R.id.list);
+
+        // Getting List names from the database
+        listNames = dbTools.getAllListNames();
+
+        //
+        ListAdapter theAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 ,
+                arrayListToString(listNames));
+
+        listView.setAdapter(theAdapter);
 
         // Initiating the Floating ActionBar
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -104,6 +121,18 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String[] arrayListToString(ArrayList<String> listNames){
+
+        String[] array = new String[listNames.size()];
+
+        for(int i =0 ; i < listNames.size() ; i++){
+           array[i] = listNames.get(i).substring(10, listNames.get(i).length()-1 );
+        }
+
+        return array;
+
     }
 
 }
