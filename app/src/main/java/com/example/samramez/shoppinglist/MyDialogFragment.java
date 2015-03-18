@@ -53,12 +53,15 @@ public class MyDialogFragment extends DialogFragment{
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-
                 // Get text from EditText
                 final String listName = dialogEditText.getText().toString();
 
+                // Sending the list name
+                // Sending a boolean saying this activity is a new list
                 Intent intent = new Intent(getActivity(), List.class)
-                        .putExtra(Intent.EXTRA_TEXT, listName);
+                        .putExtra(Intent.EXTRA_TEXT, listName)
+                        .putExtra(Intent.ACTION_ANSWER,true);
+
 
                 startActivity(intent);
 

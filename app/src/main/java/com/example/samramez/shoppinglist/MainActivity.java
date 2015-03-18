@@ -28,6 +28,9 @@ public class MainActivity extends ActionBarActivity {
 
     ArrayList<String> listNames;
 
+    // Tells List.java if we're opening new list or opening current made list
+    //public static boolean isNewList = true;
+
     DBTools dbTools = new DBTools(this);
 
     @Override

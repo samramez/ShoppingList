@@ -3,6 +3,7 @@ package com.example.samramez.shoppinglist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -32,6 +34,11 @@ public class List extends ActionBarActivity {
 
     DBTools dbtools = new DBTools(this);
 
+    // if true, Activity will make a new list
+    boolean isNewList;
+
+    private static final String TAG = "ListActivity";
+
 
     // For Test purposes
     TextView testTextView;
@@ -41,9 +48,16 @@ public class List extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        // Getting List name from the sent intent
+        // Receiving the intent from MainActivity
         Intent listIntent = this.getIntent();
         listName = listIntent.getStringExtra(Intent.EXTRA_TEXT);
+        isNewList = listIntent.getExtras().getBoolean(Intent.ACTION_ANSWER);
+        Log.v(TAG, "Is this a new list? : " + isNewList);
+
+        // If this is an old list
+        if( isNewList == false){
+            loadList(listName);
+        }
 
         // For Test purposes
         testTextView = (TextView) findViewById(R.id.testTextView);
@@ -62,6 +76,14 @@ public class List extends ActionBarActivity {
                 addItem();
             }
         });
+    }
+
+    private void loadList(String listName) {
+
+        ArrayList<HashMap<String, String>> listItems = new ArrayList<HashMap<String, String>>();
+        listItems = dbtools.getAllItems(listName);
+
+
     }
 
     // Inflate item cell to the List activity.
