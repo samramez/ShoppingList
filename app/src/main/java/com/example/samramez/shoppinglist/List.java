@@ -80,11 +80,68 @@ public class List extends ActionBarActivity {
 
     private void loadList(String listName) {
 
-        ArrayList<HashMap<String, String>> listItems = new ArrayList<HashMap<String, String>>();
+        ArrayList<String> listItems = new ArrayList<String>();
         listItems = dbtools.getAllItems(listName);
 
+        for(int i=0 ; i<listItems.size() ; i++){
+
+            addItem( listItems.get(i).substring(10, listItems.get(i).length()-1 ) );
+
+        }
 
     }
+
+
+
+    // Inflate item cell to the List activity.
+    private void addItem(String item) {
+
+        // Show the Save Button
+        saveButton.setVisibility(View.VISIBLE);
+
+        // Instantiate a new "row" view.
+        final ViewGroup newView = (ViewGroup) LayoutInflater.from(this)
+                .inflate(R.layout.list_item_inflate, mContainerView, false);
+
+//        String item;
+//        item = addItemEditText.getText().toString();
+        ((TextView) newView.findViewById(android.R.id.text1)).setText(item);
+
+        // Add to ItemList HashMap and later add the whole list
+        queryItemMap.put("item",item);
+
+        // Set a click listener for the "X" button in the row that will remove the row.
+        newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Remove the row from its parent (the container view).
+                // Because mContainerView has android:animateLayoutChanges set to true,
+                // this removal is automatically animated.
+                mContainerView.removeView(newView);
+
+                // Remove item from HashMap
+                String deletedItem = ((TextView) newView.findViewById(android.R.id.text1))
+                        .getText().toString();
+                queryItemMap.remove(deletedItem);
+
+                // If there are no rows remaining, show the empty view.
+                if (mContainerView.getChildCount() == 0) {
+                    findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+                    saveButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        // Because mContainerView has android:animateLayoutChanges set to true,
+        // adding this view is automatically animated.
+        mContainerView.addView(newView, 0);
+
+        //clear the EditText for the next thing
+        addItemEditText.setText("");
+    }
+
+
+
 
     // Inflate item cell to the List activity.
     private void addItem() {
@@ -134,16 +191,6 @@ public class List extends ActionBarActivity {
     }
 
 
-    /**
-     * A static list of item names.
-     */
-    private static final String[] ITEMS = new String[]{
-            "Apple", "Orange", "Juice", "Meat", "Water",
-            "Cheese", "Eggs", "Ice Cream", "Butter", "Bread",
-            "Nutella",
-    };
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -168,6 +215,7 @@ public class List extends ActionBarActivity {
         addItemEditText.setText("");
     }
 
+
     // Saves the queryHashMap in the SQL table and go back to main page
     public void saveList(View view) {
 
@@ -178,4 +226,18 @@ public class List extends ActionBarActivity {
         startActivity(intent);
 
     }
+
+
+    private String[] arrayListToString(ArrayList<String> listNames){
+
+        String[] array = new String[listNames.size()];
+
+        for(int i =0 ; i < listNames.size() ; i++){
+            array[i] = listNames.get(i).substring(10, listNames.get(i).length()-1 );
+        }
+
+        return array;
+
+    }
+
 }

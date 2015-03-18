@@ -136,6 +136,6 @@ public class MainActivity extends ActionBarActivity {
 
         return array;
 
-    }
+    } //TODO: put it in the interface
 
 }
