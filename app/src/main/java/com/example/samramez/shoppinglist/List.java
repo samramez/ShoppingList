@@ -55,7 +55,7 @@ public class List extends ActionBarActivity {
         Log.v(TAG, "Is this a new list? : " + isNewList);
 
         // If this is an old list
-        if( isNewList == false){
+        if(!isNewList){
             loadList(listName);
         }
 
@@ -97,7 +97,7 @@ public class List extends ActionBarActivity {
     private void addItem(String item) {
 
         // Show the Save Button
-        saveButton.setVisibility(View.VISIBLE);
+        //saveButton.setVisibility(View.VISIBLE);
 
         // Instantiate a new "row" view.
         final ViewGroup newView = (ViewGroup) LayoutInflater.from(this)

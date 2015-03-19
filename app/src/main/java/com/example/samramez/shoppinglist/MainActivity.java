@@ -1,5 +1,6 @@
 package com.example.samramez.shoppinglist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -44,10 +46,28 @@ public class MainActivity extends ActionBarActivity {
         listNames = dbTools.getAllListNames();
 
         //
-        ListAdapter theAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 ,
+        final ListAdapter theAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 ,
                 arrayListToString(listNames));
 
         listView.setAdapter(theAdapter);
+
+        // If a List Name Clicked, load list's items
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                String listTitle = (String) adapterView.getItemAtPosition(position);
+
+                Intent intent = new Intent(getApplication(), List.class)
+                        .putExtra(Intent.EXTRA_TEXT, listTitle)
+                        .putExtra(Intent.ACTION_ANSWER, false);
+
+                startActivity(intent);
+
+
+
+            }
+        });
 
         // Initiating the Floating ActionBar
         fab = (FloatingActionButton) findViewById(R.id.fab);
