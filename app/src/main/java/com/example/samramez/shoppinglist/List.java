@@ -54,10 +54,6 @@ public class List extends ActionBarActivity {
         isNewList = listIntent.getExtras().getBoolean(Intent.ACTION_ANSWER);
         Log.v(TAG, "Is this a new list? : " + isNewList);
 
-        // If this is an old list
-        if(!isNewList){
-            loadList(listName);
-        }
 
         // For Test purposes
         testTextView = (TextView) findViewById(R.id.testTextView);
@@ -68,6 +64,11 @@ public class List extends ActionBarActivity {
         saveButton = (Button) findViewById(R.id.saveButton);
         addItemEditText = (EditText) findViewById(R.id.addItemEditText);
         mContainerView = (ViewGroup) findViewById(R.id.container);
+
+        // If this is an old list
+        if(!isNewList){
+            loadList(listName);
+        }
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,11 +84,12 @@ public class List extends ActionBarActivity {
         ArrayList<String> listItems = new ArrayList<String>();
         listItems = dbtools.getAllItems(listName);
 
-        for(int i=0 ; i<listItems.size() ; i++){
-
+        for(int i=0 ; i < listItems.size() ; i++){
+            Log.v(TAG, "item is " + listItems.get(i).substring(10, listItems.get(i).length()-1 )  );
             addItem( listItems.get(i).substring(10, listItems.get(i).length()-1 ) );
 
         }
+
 
     }
 
@@ -96,8 +98,11 @@ public class List extends ActionBarActivity {
     // Inflate item cell to the List activity.
     private void addItem(String item) {
 
+        // Hide the id/empty TextView
+        findViewById(android.R.id.empty).setVisibility(View.GONE);
+
         // Show the Save Button
-        //saveButton.setVisibility(View.VISIBLE);
+        saveButton.setVisibility(View.VISIBLE);
 
         // Instantiate a new "row" view.
         final ViewGroup newView = (ViewGroup) LayoutInflater.from(this)
@@ -107,8 +112,10 @@ public class List extends ActionBarActivity {
 //        item = addItemEditText.getText().toString();
         ((TextView) newView.findViewById(android.R.id.text1)).setText(item);
 
+        //TODO see if its necessary to keep this list
         // Add to ItemList HashMap and later add the whole list
         queryItemMap.put("item",item);
+
 
         // Set a click listener for the "X" button in the row that will remove the row.
         newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
@@ -119,10 +126,14 @@ public class List extends ActionBarActivity {
                 // this removal is automatically animated.
                 mContainerView.removeView(newView);
 
+                //TODO: Check if keeping this is necessary
                 // Remove item from HashMap
                 String deletedItem = ((TextView) newView.findViewById(android.R.id.text1))
                         .getText().toString();
                 queryItemMap.remove(deletedItem);
+
+                // Remove from the Datbase
+                dbtools.deleteItem(deletedItem,listName);
 
                 // If there are no rows remaining, show the empty view.
                 if (mContainerView.getChildCount() == 0) {
@@ -157,8 +168,12 @@ public class List extends ActionBarActivity {
         item = addItemEditText.getText().toString();
         ((TextView) newView.findViewById(android.R.id.text1)).setText(item);
 
+        //TODO See if its necessary to keep this list
         // Add to ItemList HashMap and later add the whole list
         queryItemMap.put("item",item);
+
+        // Adding to the database
+        dbtools.insertItem(queryItemMap, listName);
 
         // Set a click listener for the "X" button in the row that will remove the row.
         newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
