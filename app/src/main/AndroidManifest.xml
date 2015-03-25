@@ -19,7 +19,8 @@
         </activity>
         <activity
             android:name=".List"
-            android:label="@string/title_activity_list" >
+            android:label="@string/title_activity_list"
+            android:parentActivityName=".MainActivity">
         </activity>
     </application>
 

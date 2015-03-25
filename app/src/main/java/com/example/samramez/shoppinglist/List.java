@@ -2,6 +2,7 @@ package com.example.samramez.shoppinglist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,6 +59,9 @@ public class List extends ActionBarActivity {
         // For Test purposes
         testTextView = (TextView) findViewById(R.id.testTextView);
         testTextView.setText(listName);
+
+        // Enabling Click on the app icon on the top
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //initiating page elements
         addButton = (Button) findViewById(R.id.addButton);
@@ -219,9 +223,15 @@ public class List extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id){
+            case android.R.id.home:
+                // When Up icon is clicked
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_settings:
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
