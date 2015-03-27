@@ -29,7 +29,9 @@
                 android:layout_height="fill_parent"
                 android:text="@string/enter_item"
                 android:layout_weight="6"
-                android:onClick="clearEditText"/>
+                android:onClick="clearEditText"
+                android:singleLine="true"
+                android:textColor="#ffa0a0a0" />"/>
             <Button
                 android:id="@+id/addButton"
                 android:layout_width="wrap_content"
@@ -69,7 +71,8 @@
         android:layout_gravity="center"
         android:padding="32dp"
         android:text="@string/message_empty_layout_changes"
-        android:textColor="?android:textColorSecondary" />
+        android:textColor="?android:textColorSecondary"
+        />
 
 
     <Button

@@ -106,7 +106,7 @@ public class List extends ActionBarActivity {
         findViewById(android.R.id.empty).setVisibility(View.GONE);
 
         // Show the Save Button
-        saveButton.setVisibility(View.VISIBLE);
+        //saveButton.setVisibility(View.VISIBLE);
 
         // Instantiate a new "row" view.
         final ViewGroup newView = (ViewGroup) LayoutInflater.from(this)
@@ -162,7 +162,7 @@ public class List extends ActionBarActivity {
     private void addItem() {
 
         // Show the Save Button
-        saveButton.setVisibility(View.VISIBLE);
+        //saveButton.setVisibility(View.VISIBLE);
 
         // Instantiate a new "row" view.
         final ViewGroup newView = (ViewGroup) LayoutInflater.from(this)
@@ -228,8 +228,8 @@ public class List extends ActionBarActivity {
                 // When Up icon is clicked
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            case R.id.action_settings:
-                return true;
+//            case R.id.action_settings:
+//                return true;
         }
 
         return super.onOptionsItemSelected(item);
