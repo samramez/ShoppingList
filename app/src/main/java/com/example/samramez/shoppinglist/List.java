@@ -1,6 +1,7 @@
 package com.example.samramez.shoppinglist;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -11,11 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+//import android.widget.CheckBox;
+
+// import android.widget.RadioGroup.OnCheckedChangeListener;
 
 
 public class List extends ActionBarActivity {
@@ -81,8 +87,11 @@ public class List extends ActionBarActivity {
                 addItem();
             }
         });
+
     }
 
+    // Called when we click on the previously made List
+    // This method loads all the items from the database to the list.
     private void loadList(String listName) {
 
         ArrayList<String> listItems = new ArrayList<String>();
@@ -147,6 +156,19 @@ public class List extends ActionBarActivity {
             }
         });
 
+
+        (newView.findViewById(R.id.readCheckBox)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    ((TextView) newView.findViewById(android.R.id.text1)).setTextColor(Color.RED);
+                    Log.v(TAG, "############################## TEXT IS NOW RED ##############################");
+                } else
+                    ((TextView) newView.findViewById(android.R.id.text1)).setTextColor(Color.GRAY);
+
+            }
+        });
+
         // Because mContainerView has android:animateLayoutChanges set to true,
         // adding this view is automatically animated.
         mContainerView.addView(newView, 0);
@@ -200,6 +222,19 @@ public class List extends ActionBarActivity {
                 }
             }
         });
+
+        (newView.findViewById(R.id.readCheckBox)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    ((TextView) newView.findViewById(android.R.id.text1)).setTextColor(Color.RED);
+                    Log.v(TAG, "############################## TEXT IS NOW RED ##############################");
+                } else
+                    ((TextView) newView.findViewById(android.R.id.text1)).setTextColor(Color.BLACK);
+
+            }
+        });
+
 
         // Because mContainerView has android:animateLayoutChanges set to true,
         // adding this view is automatically animated.
@@ -264,5 +299,6 @@ public class List extends ActionBarActivity {
         return array;
 
     }
+
 
 }
